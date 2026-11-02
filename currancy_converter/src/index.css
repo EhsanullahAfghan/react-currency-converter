@@ -1,0 +1,417 @@
+/* ==============================
+   CURRENCY CONVERTER
+================================ */
+
+.challenge {
+  --accent: #8b5cf6;
+  --accent-light: #a78bfa;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --surface: rgba(255, 255, 255, 0.045);
+  --border: rgba(255, 255, 255, 0.1);
+
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--text-primary);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      ellipse at 10% 10%,
+      rgba(124, 58, 237, 0.2),
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 90% 90%,
+      rgba(37, 99, 235, 0.17),
+      transparent 40%
+    ),
+    #080c18;
+}
+
+.challenge *,
+.challenge *::before,
+.challenge *::after {
+  box-sizing: border-box;
+}
+
+.converter-card {
+  width: 100%;
+  max-width: 780px;
+  padding: 38px;
+  position: relative;
+  overflow: hidden;
+
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.35),
+    0 0 50px rgba(139, 92, 246, 0.06);
+
+  backdrop-filter: blur(20px);
+  animation: card-appear 0.6s ease both;
+}
+
+.converter-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  width: 70%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #a78bfa,
+    #60a5fa,
+    transparent
+  );
+}
+
+/* ==============================
+   HEADER
+================================ */
+
+.converter-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.converter-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 30px;
+  border-radius: 20px;
+
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+
+  box-shadow: 0 10px 35px rgba(124, 58, 237, 0.3);
+}
+
+.converter-header h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+
+  background: linear-gradient(90deg, #ffffff, #c4b5fd, #93c5fd);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.converter-header p {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* ==============================
+   INPUTS AND CURRENCY SELECTORS
+================================ */
+
+.converter-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: end;
+}
+
+.field-group {
+  min-width: 0;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 10px;
+
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.amount-input,
+.currency-select {
+  width: 100%;
+  height: 60px;
+  padding: 0 14px;
+
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+
+  font: inherit;
+  font-size: 1rem;
+
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.amount-input {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.amount-input::placeholder {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.amount-input:focus,
+.currency-select:focus {
+  border-color: var(--accent-light);
+  background: rgba(139, 92, 246, 0.07);
+
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+}
+
+.currency-select {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.currency-select option {
+  color: #f8fafc;
+  background: #111827;
+}
+
+/* ==============================
+   SWAP BUTTON
+================================ */
+
+.swap-button {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 7px;
+
+  display: grid;
+  place-items: center;
+
+  color: white;
+  font-size: 1.4rem;
+
+  background: linear-gradient(135deg, #8b5cf6, #4f46e5);
+
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.swap-button:hover {
+  transform: rotate(180deg) scale(1.08);
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.4);
+}
+
+.swap-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+/* ==============================
+   RESULT PANEL
+================================ */
+
+.result-panel {
+  margin-top: 28px;
+  padding: 28px;
+
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 22px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.12),
+    rgba(59, 130, 246, 0.07)
+  );
+}
+
+.result-caption {
+  margin: 0 0 18px;
+
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.result-amount {
+  margin: 0;
+  overflow-wrap: anywhere;
+
+  color: #ffffff;
+  font-size: clamp(1.6rem, 5vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.35;
+}
+
+.result-amount span {
+  color: #c4b5fd;
+}
+
+.exchange-rate {
+  margin: 16px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* ==============================
+   LOADING AND ERROR MESSAGES
+================================ */
+
+.status-message {
+  margin-top: 20px;
+  padding: 15px 17px;
+
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.status-loading {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.status-error {
+  color: #fda4af;
+  background: rgba(244, 63, 94, 0.09);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+/* ==============================
+   FOOTER
+================================ */
+
+.converter-footer {
+  margin-top: 26px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border);
+
+  color: #64748b;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* ==============================
+   ANIMATION
+================================ */
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 680px) {
+  .challenge {
+    padding: 30px 14px;
+    align-items: flex-start;
+  }
+
+  .converter-card {
+    padding: 25px 18px;
+    border-radius: 22px;
+  }
+
+  .converter-header {
+    margin-bottom: 28px;
+  }
+
+  .converter-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px 12px;
+  }
+
+  .amount-group {
+    grid-column: 1 / -1;
+  }
+
+  .swap-button {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: center;
+
+    margin: -2px 0;
+  }
+
+  .from-group {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .to-group {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  .amount-input,
+  .currency-select {
+    height: 54px;
+    padding: 0 10px;
+    font-size: 0.95rem;
+  }
+
+  .result-panel {
+    margin-top: 24px;
+    padding: 22px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .converter-card {
+    animation: none;
+  }
+
+  .swap-button,
+  .amount-input,
+  .currency-select {
+    transition: none;
+  }
+}
